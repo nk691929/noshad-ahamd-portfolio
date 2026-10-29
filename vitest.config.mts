@@ -8,8 +8,8 @@ import path from "node:path";
 export default defineConfig({
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
-      "@content": path.resolve(__dirname, "content"),
+      "@": path.resolve(import.meta.dirname, "src"),
+      "@content": path.resolve(import.meta.dirname, "content"),
     },
   },
   test: { environment: "node", include: ["tests/**/*.test.ts"] },
