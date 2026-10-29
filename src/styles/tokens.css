@@ -1,0 +1,80 @@
+/**
+ * Purpose: single source of truth for design tokens (color, radius, shadow, spacing, motion).
+ * Inputs: none. Consumed by: src/styles/globals.css (maps tokens into the Tailwind theme).
+ * Re-skin the whole site by editing ONLY this file. Dark is the default theme;
+ * light is applied via <html data-theme="light"> (next-themes).
+ * Contrast of key pairs is enforced by tests/tokens.test.ts (WCAG AA).
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* Color: dark (default) */
+  --bg: #07080b;
+  --bg-elevated: #0d0f14;
+  --surface: rgb(255 255 255 / 0.04);
+  --surface-hover: rgb(255 255 255 / 0.07);
+  --border: rgb(255 255 255 / 0.08);
+  --border-strong: rgb(255 255 255 / 0.16);
+  --fg: #f2f5fa;
+  --fg-muted: #9aa4b2;
+  --accent-1: #02569b; /* Dart deep blue */
+  --accent-2: #13b9fd; /* Flutter cyan */
+  --accent-text: #13b9fd; /* accent when used as TEXT (AA on --bg) */
+  --accent-grad: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+  --glow: 0 0 60px rgb(19 185 253 / 0.25);
+  --grain-opacity: 0.05;
+
+  /* Shape */
+  --r-sm: 8px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-full: 9999px;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 8px 24px rgb(0 0 0 / 0.45);
+  --shadow-lg: 0 24px 64px rgb(0 0 0 / 0.55);
+
+  /* Spacing: 8px system (use via Tailwind spacing scale or these vars) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 64px;
+  --space-8: 96px;
+  --space-9: 128px;
+
+  /* Motion: mirror these in src/lib/motion (step 5) */
+  --dur-fast: 150ms;
+  --dur-base: 300ms;
+  --dur-slow: 600ms;
+  --dur-hero: 900ms;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --stagger: 80ms;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #fafbfd;
+  --bg-elevated: #ffffff;
+  --surface: rgb(11 18 32 / 0.04);
+  --surface-hover: rgb(11 18 32 / 0.07);
+  --border: rgb(11 18 32 / 0.1);
+  --border-strong: rgb(11 18 32 / 0.2);
+  --fg: #0b1220;
+  --fg-muted: #475467;
+  --accent-1: #02569b;
+  --accent-2: #0b9fe0;
+  --accent-text: #0369a1;
+  --glow: 0 0 60px rgb(3 105 161 / 0.18);
+  --grain-opacity: 0.035;
+
+  --shadow-sm: 0 1px 2px rgb(11 18 32 / 0.08);
+  --shadow-md: 0 8px 24px rgb(11 18 32 / 0.1);
+  --shadow-lg: 0 24px 64px rgb(11 18 32 / 0.14);
+}
