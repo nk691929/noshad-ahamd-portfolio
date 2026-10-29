@@ -1,2 +1,3 @@
 // Purpose: enforce Conventional Commits. Used by: .husky/commit-msg.
-export default { extends: ["@commitlint/config-conventional"] };
+const config = { extends: ["@commitlint/config-conventional"] };
+export default config;
