@@ -1,0 +1,2 @@
+/* Purpose: global styles entry. Tokens + theme arrive in step 2 (feature/tokens-theme). */
+@import "tailwindcss";
