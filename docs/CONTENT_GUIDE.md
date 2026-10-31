@@ -44,3 +44,19 @@ Append this to `docs/CONTENT_GUIDE.md` (the commands in the step message do it f
 
 The site is public. Never put a phone number in `/content` (`tests/privacy.test.ts` enforces this). Use a résumé copy
 without a phone number for `/public/resume.pdf`.
+
+# Content guide addendum (step 4)
+
+Append to `docs/CONTENT_GUIDE.md`, then delete this file.
+
+## Project order
+
+Each project has a unique `rank` (1 = shown first). The first card is large and the second is wide. Re-rank by editing the numbers; `pnpm test` fails on duplicates.
+
+## Section headings and CTAs
+
+Edit `content/sections.ts`. Components contain no marketing copy.
+
+## What the UI hides
+
+Any value that is still `todo(...)` is hidden (links, summaries, photo, availability). Fill it and it appears.

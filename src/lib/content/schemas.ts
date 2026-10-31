@@ -53,6 +53,8 @@ export const skillSchema = z.object({
 
 export const projectSchema = z.object({
   slug,
+  /** display order: 1 = shown first. Must be unique across projects. */
+  rank: z.number().int().positive(),
   title: z.string().min(1),
   summary: todoOr(z.string().min(1)),
   tags: z.array(z.enum(PROJECT_TAGS)).min(1),
