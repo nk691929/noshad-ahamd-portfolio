@@ -67,6 +67,10 @@ export const projectSchema = z.object({
   }),
   /** true = content/case-studies/<slug>.mdx must exist */
   caseStudy: z.boolean(),
+  /** client name for client work (get the client's permission before showing it) */
+  client: z.string().min(1).optional(),
+  /** omit when unknown */
+  status: z.enum(["live", "in-progress", "archived"]).optional(),
 });
 
 export const experienceSchema = z.object({
