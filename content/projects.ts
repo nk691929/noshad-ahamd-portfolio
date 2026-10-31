@@ -1,7 +1,7 @@
 /**
  * Purpose: all portfolio projects. TO ADD ONE: copy an entry, change slug/title/tags, done.
  * Sources: owner résumé, repo list and brief. Roles, periods and covers are TODO(owner).
- * `featured` (big bento cards) is provisional. TODO(owner): pick the projects to feature.
+ * `rank` sets display order (1 first, unique). `featured` adds a badge and is provisional. TODO(owner): pick the projects to feature.
  * Used by: projects section (bento + filters), case-study pages, sitemap, SEO.
  */
 import { projectSchema } from "@/lib/content/schemas";
@@ -20,6 +20,7 @@ export const projects = z.array(projectSchema).parse([
   // ---- Main Flutter projects ----
   {
     slug: "inventory-offline-sync",
+    rank: 1,
     title: "Inventory Offline Sync",
     summary:
       "Offline-first collaborative inventory app with role-based access control, a Hive-backed sync queue and Last-Writer-Wins conflict resolution.",
@@ -32,6 +33,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "applylog",
+    rank: 3,
     title: "ApplyLog",
     summary:
       "Job application tracker using Firebase Auth and Firestore, with automatic route protection and local follow-up reminders.",
@@ -44,6 +46,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "ecommerce-app",
+    rank: 5,
     title: "E-Commerce App",
     summary:
       "Browsing app on a live REST API with infinite scroll, debounced search, category filters and a persistent cart.",
@@ -56,10 +59,12 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "crm-app",
+    rank: 7,
     title: "CRM App",
-    summary: todo("one-line description (repo: crm_app_n8n_flutter)"),
+    summary:
+      "Basic CRM for NexyMark: leads arrive by email and Tally.so forms, with editable priority status and notes, backed by Supabase.",
     tags: ["Flutter"],
-    stack: ["Flutter"],
+    stack: ["Flutter", "Supabase", "Tally.so"],
     featured: false,
     caseStudy: false,
     links: { github: gh("crm_app_n8n_flutter"), live: todo("live URL, or remove") },
@@ -67,8 +72,10 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "expensio",
+    rank: 8,
     title: "Expensio",
-    summary: todo("one-line description"),
+    summary:
+      "Daily expense manager: add transactions with categories and accounts, see spending in charts and export your data as PDF.",
     tags: ["Flutter"],
     stack: ["Flutter"],
     featured: false,
@@ -78,6 +85,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "dopa-shorts",
+    rank: 9,
     title: "Dopa Shorts",
     summary: "Short-video app built with Flutter.",
     tags: ["Flutter"],
@@ -93,10 +101,11 @@ export const projects = z.array(projectSchema).parse([
   // ---- Main TypeScript / web projects ----
   {
     slug: "estate-demo",
+    rank: 2,
     title: "Estate Demo",
     summary: "Real estate website demo (Prime Estates) with an admin area.",
     tags: ["Web"],
-    stack: ["TypeScript", "Supabase"],
+    stack: ["Next.js", "TypeScript", "Supabase"],
     featured: true,
     caseStudy: false,
     status: "live",
@@ -105,10 +114,11 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "nexymark",
+    rank: 4,
     title: "NexyMark",
     summary: "My business: websites, apps and lead automation for real estate agents.",
     tags: ["Web"],
-    stack: ["TypeScript"],
+    stack: ["Next.js", "TypeScript"],
     featured: true,
     caseStudy: false,
     status: "live",
@@ -117,20 +127,25 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "al-hesan",
-    title: "Al Hesan Construction Website",
-    summary: "Construction website for a client, built in TypeScript.",
+    rank: 6,
+    title: "Al Hesan Al Abyadh Website",
+    summary: "Website for a building materials trading company, delivered as a client project.",
     tags: ["Web"],
-    stack: ["TypeScript"],
+    stack: ["Next.js", "TypeScript"],
     featured: false,
     caseStudy: false,
-    client: "Al Hesan Al Abyadh Building Materials Trading",
-    status: "in-progress",
-    links: { github: todo("repo URL, or remove if private"), live: todo("live URL once launched") },
+    client: "Muhammad Fahad, Al Hesan Al Abyadh Building Materials Trading",
+    status: "live",
+    links: {
+      github: todo("repo URL, or remove if private"),
+      live: "https://alhesanalabyadhbuildingmaterials.com/en",
+    },
     ...base,
   },
   // ---- Earlier projects (from the original brief; confirm or remove) ----
   {
     slug: "dopareels",
+    rank: 10,
     title: "DopaReels",
     summary: "TikTok-style short-video app with chat.",
     tags: ["Mobile"],
@@ -142,6 +157,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "chat-app",
+    rank: 11,
     title: "Chat App",
     summary: "Real-time chat app built with Flutter and Firebase.",
     tags: ["Flutter"],
@@ -153,6 +169,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "cattle-management",
+    rank: 12,
     title: "Cattle Management",
     summary: "Flutter web app for tracking cattle.",
     tags: ["Flutter", "Web"],
@@ -164,6 +181,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "iiui-gpa-calculator",
+    rank: 13,
     title: "IIUI GPA Calculator",
     summary: "Native Android app for calculating GPA.",
     tags: ["Android"],
@@ -175,6 +193,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "words-counter",
+    rank: 14,
     title: "Words Counter",
     summary: "HTML tool with word count, read-time estimate, case conversion and text-to-speech.",
     tags: ["Web"],

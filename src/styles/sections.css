@@ -1,0 +1,49 @@
+/**
+ * Purpose: section-level CSS that Tailwind utilities cannot express (hero background blobs + keyframes).
+ * Animates only transform (GPU-cheap). The reduced-motion baseline in globals.css freezes these.
+ * Used by: src/app/layout.tsx.
+ */
+.hero-blob {
+  position: absolute;
+  border-radius: 9999px;
+  opacity: 0.5;
+  will-change: transform;
+  pointer-events: none;
+}
+.hero-blob--a {
+  width: 60vmax;
+  height: 60vmax;
+  top: -20vmax;
+  right: -15vmax;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--accent-2) 45%, transparent),
+    transparent
+  );
+  animation: drift-a 22s ease-in-out infinite alternate;
+}
+.hero-blob--b {
+  width: 50vmax;
+  height: 50vmax;
+  bottom: -25vmax;
+  left: -15vmax;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--accent-1) 55%, transparent),
+    transparent
+  );
+  animation: drift-b 26s ease-in-out infinite alternate;
+}
+:root[data-theme="light"] .hero-blob {
+  opacity: 0.35;
+}
+@keyframes drift-a {
+  to {
+    transform: translate3d(-6vmax, 5vmax, 0) scale(1.08);
+  }
+}
+@keyframes drift-b {
+  to {
+    transform: translate3d(7vmax, -4vmax, 0) scale(1.1);
+  }
+}
