@@ -1,40 +1,155 @@
 /**
  * Purpose: all portfolio projects. TO ADD ONE: copy an entry, change slug/title/tags, done.
- * Summaries/stacks come from the owner brief only; links, roles, dates and covers are TODO(owner).
- * `featured` choices are provisional (TODO(owner): pick the projects to feature).
+ * Sources: owner résumé, repo list and brief. Roles, periods and covers are TODO(owner).
+ * `featured` (big bento cards) is provisional. TODO(owner): pick the projects to feature.
  * Used by: projects section (bento + filters), case-study pages, sitemap, SEO.
  */
 import { projectSchema } from "@/lib/content/schemas";
 import { todo } from "@/lib/content/todo";
 import { z } from "zod";
 
-const placeholders = {
+const gh = (repo: string) => `https://github.com/nk691929/${repo}`;
+
+const base = {
   role: todo("your role on this project"),
   period: todo("when it was built"),
   cover: todo("cover image path in /public/images"),
-  links: { github: todo("GitHub repo URL"), live: todo("live URL or store link") },
 };
 
 export const projects = z.array(projectSchema).parse([
+  // ---- Main Flutter projects ----
   {
-    slug: "chat-app",
-    title: "Chat App",
-    summary: "Real-time chat app built with Flutter and Firebase.",
+    slug: "inventory-offline-sync",
+    title: "Inventory Offline Sync",
+    summary:
+      "Offline-first collaborative inventory app with role-based access control, a Hive-backed sync queue and Last-Writer-Wins conflict resolution.",
     tags: ["Flutter"],
-    stack: ["Flutter", "Dart", "Firebase"],
+    stack: ["Flutter", "Dart", "Clean Architecture", "Hive", "GitHub Actions"],
     featured: true,
     caseStudy: true,
-    ...placeholders,
+    links: { github: gh("inventory-offline-sync-flutter"), live: todo("live URL, or remove") },
+    ...base,
   },
+  {
+    slug: "applylog",
+    title: "ApplyLog",
+    summary:
+      "Job application tracker using Firebase Auth and Firestore, with automatic route protection and local follow-up reminders.",
+    tags: ["Flutter"],
+    stack: ["Flutter", "Firebase", "Firestore", "Riverpod", "go_router"],
+    featured: false,
+    caseStudy: true,
+    links: { github: gh("applylog-flutter"), live: todo("live URL, or remove") },
+    ...base,
+  },
+  {
+    slug: "ecommerce-app",
+    title: "E-Commerce App",
+    summary:
+      "Browsing app on a live REST API with infinite scroll, debounced search, category filters and a persistent cart.",
+    tags: ["Flutter"],
+    stack: ["Flutter", "Riverpod", "go_router", "Dio", "Clean Architecture"],
+    featured: false,
+    caseStudy: true,
+    links: { github: gh("ecommerce-flutter-clean-arch"), live: todo("live URL, or remove") },
+    ...base,
+  },
+  {
+    slug: "crm-app",
+    title: "CRM App",
+    summary: todo("one-line description (repo: crm_app_n8n_flutter)"),
+    tags: ["Flutter"],
+    stack: ["Flutter"],
+    featured: false,
+    caseStudy: false,
+    links: { github: gh("crm_app_n8n_flutter"), live: todo("live URL, or remove") },
+    ...base,
+  },
+  {
+    slug: "expensio",
+    title: "Expensio",
+    summary: todo("one-line description"),
+    tags: ["Flutter"],
+    stack: ["Flutter"],
+    featured: false,
+    caseStudy: false,
+    links: { github: gh("Expensio"), live: todo("live URL, or remove") },
+    ...base,
+  },
+  {
+    slug: "dopa-shorts",
+    title: "Dopa Shorts",
+    summary: "Short-video app built with Flutter.",
+    tags: ["Flutter"],
+    stack: ["Flutter"],
+    featured: false,
+    caseStudy: false,
+    links: {
+      github: gh("Dopa-shorts-Shorts-Video-App-Flutter"),
+      live: todo("live URL, or remove"),
+    },
+    ...base,
+  },
+  // ---- Main TypeScript / web projects ----
+  {
+    slug: "estate-demo",
+    title: "Estate Demo",
+    summary: "Real estate website demo (Prime Estates) with an admin area.",
+    tags: ["Web"],
+    stack: ["TypeScript", "Supabase"],
+    featured: true,
+    caseStudy: false,
+    status: "live",
+    links: { github: gh("estate-demo"), live: "https://estate-demo-nu.vercel.app/" },
+    ...base,
+  },
+  {
+    slug: "nexymark",
+    title: "NexyMark",
+    summary: "My business: websites, apps and lead automation for real estate agents.",
+    tags: ["Web"],
+    stack: ["TypeScript"],
+    featured: true,
+    caseStudy: false,
+    status: "live",
+    links: { github: todo("repo URL, or remove if private"), live: "https://nexymark.com" },
+    ...base,
+  },
+  {
+    slug: "al-hesan",
+    title: "Al Hesan Construction Website",
+    summary: "Construction website for a client, built in TypeScript.",
+    tags: ["Web"],
+    stack: ["TypeScript"],
+    featured: false,
+    caseStudy: false,
+    client: "Al Hesan Al Abyadh Building Materials Trading",
+    status: "in-progress",
+    links: { github: todo("repo URL, or remove if private"), live: todo("live URL once launched") },
+    ...base,
+  },
+  // ---- Earlier projects (from the original brief; confirm or remove) ----
   {
     slug: "dopareels",
     title: "DopaReels",
     summary: "TikTok-style short-video app with chat.",
     tags: ["Mobile"],
     stack: ["React Native", "Expo", "TypeScript", "Supabase"],
-    featured: true,
+    featured: false,
     caseStudy: false,
-    ...placeholders,
+    links: { github: todo("repo URL"), live: todo("live URL, or remove") },
+    ...base,
+  },
+  {
+    slug: "chat-app",
+    title: "Chat App",
+    summary: "Real-time chat app built with Flutter and Firebase.",
+    tags: ["Flutter"],
+    stack: ["Flutter", "Dart", "Firebase"],
+    featured: false,
+    caseStudy: false,
+    links: { github: todo("repo URL"), live: todo("live URL, or remove") },
+    ...base,
   },
   {
     slug: "cattle-management",
@@ -42,9 +157,10 @@ export const projects = z.array(projectSchema).parse([
     summary: "Flutter web app for tracking cattle.",
     tags: ["Flutter", "Web"],
     stack: ["Flutter", "Dart"],
-    featured: true,
+    featured: false,
     caseStudy: false,
-    ...placeholders,
+    links: { github: todo("repo URL"), live: todo("live URL, or remove") },
+    ...base,
   },
   {
     slug: "iiui-gpa-calculator",
@@ -54,7 +170,8 @@ export const projects = z.array(projectSchema).parse([
     stack: ["Android", "Java"],
     featured: false,
     caseStudy: false,
-    ...placeholders,
+    links: { github: todo("repo URL"), live: todo("live URL, or remove") },
+    ...base,
   },
   {
     slug: "words-counter",
@@ -64,26 +181,7 @@ export const projects = z.array(projectSchema).parse([
     stack: ["HTML"],
     featured: false,
     caseStudy: false,
-    ...placeholders,
-  },
-  {
-    slug: "cashledger",
-    title: "CashLedger",
-    summary: todo("one-line description"),
-    tags: ["Android"],
-    stack: ["Java"],
-    featured: false,
-    caseStudy: false,
-    ...placeholders,
-  },
-  {
-    slug: "lighton",
-    title: "LightOn",
-    summary: todo("one-line description"),
-    tags: ["Android"],
-    stack: ["Java"],
-    featured: false,
-    caseStudy: false,
-    ...placeholders,
+    links: { github: todo("repo URL"), live: todo("live URL, or remove") },
+    ...base,
   },
 ]);

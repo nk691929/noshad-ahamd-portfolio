@@ -30,3 +30,17 @@ Never invent facts. Unknown values use `todo("what is needed")` from `src/lib/co
 
 Files in `content/case-studies/`. Filename = project slug. Frontmatter requires `title` and `summary`. MDX can execute JavaScript,
 so only the owner edits these files.
+
+# Content guide addendum (project fields)
+
+Append this to `docs/CONTENT_GUIDE.md` (the commands in the step message do it for you, then this file can be deleted).
+
+## Optional project fields
+
+- `client`: client name for client work. Get the client's permission before publishing it.
+- `status`: `live`, `in-progress` or `archived`. Omit when unknown.
+
+## Privacy
+
+The site is public. Never put a phone number in `/content` (`tests/privacy.test.ts` enforces this). Use a résumé copy
+without a phone number for `/public/resume.pdf`.

@@ -6,8 +6,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
-import { compileMDX } from "next-mdx-remote/rsc";
-import type { ComponentProps } from "react";
+import { compileMDX, type MDXRemoteProps } from "next-mdx-remote/rsc";
 import { caseStudyFrontmatterSchema } from "./schemas";
 
 const DIR = path.join(process.cwd(), "content", "case-studies");
@@ -18,10 +17,7 @@ export async function getCaseStudySlugs(): Promise<string[]> {
   return files.filter((f) => f.endsWith(".mdx")).map((f) => f.replace(/\.mdx$/, ""));
 }
 
-export async function getCaseStudy(
-  slug: string,
-  components: ComponentProps<typeof compileMDX>["components"] = {},
-) {
+export async function getCaseStudy(slug: string, components: MDXRemoteProps["components"] = {}) {
   if (!SLUG.test(slug)) return null;
   let raw: string;
   try {

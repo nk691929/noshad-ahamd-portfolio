@@ -1,0 +1,36 @@
+---
+title: Inventory Offline Sync
+summary: Offline-first collaborative inventory app with role-based access control and conflict-safe sync.
+---
+
+{/* Filename must equal the project slug in content/projects.ts. Facts below come from the owner résumé. */}
+
+## Problem
+
+TODO(owner): who uses an inventory app offline, and what went wrong with online-only tools?
+
+## Role
+
+TODO(owner): your responsibilities (solo or team).
+
+## Solution
+
+- Offline-first, collaborative inventory app built with Flutter and Clean Architecture, with local persistence in Hive.
+- Role-based access control enforced at both the UI and the use-case layer, verified by tests that call the use case directly, independent of any UI.
+- An offline sync queue with Hive persistence and a sealed-class operation hierarchy using a discriminator pattern, supporting bounded retries and Last-Writer-Wins conflict resolution.
+- Optimistic stock updates with automatic rollback on permanent failure.
+- CI with GitHub Actions running static analysis and the unit and widget test suite on every pull request.
+
+## Challenges
+
+Device testing surfaced a real concurrency race condition and an out-of-order queue-processing bug, both found and fixed.
+
+TODO(owner): add one or two lines on how you diagnosed and fixed them.
+
+## Screenshots
+
+TODO(owner): add images to /public/images and reference them here.
+
+## Outcome
+
+TODO(owner): results and learnings (do not add metrics you cannot back up).
