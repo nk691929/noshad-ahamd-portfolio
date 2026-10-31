@@ -12,7 +12,8 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "prepare": "husky"
+    "prepare": "husky",
+    "todo": "node scripts/list-todos.mjs"
   },
   "lint-staged": {
     "*.{ts,tsx,js,mjs}": [
@@ -24,10 +25,13 @@
     ]
   },
   "dependencies": {
+    "gray-matter": "^4.0.3",
     "next": "^16.4.3",
+    "next-mdx-remote": "^6.0.0",
     "next-themes": "^0.4.6",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",
