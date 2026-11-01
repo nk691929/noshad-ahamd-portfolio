@@ -46,7 +46,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "ecommerce-app",
-    rank: 5,
+    rank: 6,
     title: "E-Commerce App",
     summary:
       "Browsing app on a live REST API with infinite scroll, debounced search, category filters and a persistent cart.",
@@ -59,7 +59,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "crm-app",
-    rank: 7,
+    rank: 8,
     title: "CRM App",
     summary:
       "Basic CRM for NexyMark: leads arrive by email and Tally.so forms, with editable priority status and notes, backed by Supabase.",
@@ -72,7 +72,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "expensio",
-    rank: 8,
+    rank: 9,
     title: "Expensio",
     summary:
       "Daily expense manager: add transactions with categories and accounts, see spending in charts and export your data as PDF.",
@@ -85,7 +85,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "dopa-shorts",
-    rank: 9,
+    rank: 10,
     title: "Dopa Shorts",
     summary: "Short-video app built with Flutter.",
     tags: ["Flutter"],
@@ -114,7 +114,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "nexymark",
-    rank: 4,
+    rank: 5,
     title: "NexyMark",
     summary: "My business: websites, apps and lead automation for real estate agents.",
     tags: ["Web"],
@@ -127,7 +127,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "al-hesan",
-    rank: 6,
+    rank: 7,
     title: "Al Hesan Al Abyadh Website",
     summary: "Website for a building materials trading company, delivered as a client project.",
     tags: ["Web"],
@@ -142,10 +142,24 @@ export const projects = z.array(projectSchema).parse([
     },
     ...base,
   },
+  {
+    slug: "portfolio-site",
+    rank: 4,
+    title: "Noshad Ahmad Portfolio",
+    summary:
+      "This website: an animated, content-driven portfolio with a GitHub activity block and a project-inquiry form.",
+    tags: ["Web"],
+    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Motion", "Vercel"],
+    featured: false,
+    caseStudy: false,
+    status: "live",
+    links: { github: todo("repo URL"), live: "https://www.noshadahmad.com" },
+    ...base,
+  },
   // ---- Earlier projects (from the original brief; confirm or remove) ----
   {
     slug: "dopareels",
-    rank: 10,
+    rank: 11,
     title: "DopaReels",
     summary: "TikTok-style short-video app with chat.",
     tags: ["Mobile"],
@@ -157,7 +171,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "chat-app",
-    rank: 11,
+    rank: 12,
     title: "Chat App",
     summary: "Real-time chat app built with Flutter and Firebase.",
     tags: ["Flutter"],
@@ -169,7 +183,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "cattle-management",
-    rank: 12,
+    rank: 13,
     title: "Cattle Management",
     summary: "Flutter web app for tracking cattle.",
     tags: ["Flutter", "Web"],
@@ -181,7 +195,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "iiui-gpa-calculator",
-    rank: 13,
+    rank: 14,
     title: "IIUI GPA Calculator",
     summary: "Native Android app for calculating GPA.",
     tags: ["Android"],
@@ -193,7 +207,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "words-counter",
-    rank: 14,
+    rank: 15,
     title: "Words Counter",
     summary: "HTML tool with word count, read-time estimate, case conversion and text-to-speech.",
     tags: ["Web"],

@@ -1,20 +1,33 @@
 "use server";
 
 /**
- * Purpose: server action for the contact form. Validates with Zod, ignores bots (honeypot), sends via the
- * Resend REST API when env vars are set, otherwise returns a mailto fallback. No secrets reach the client.
- * Inputs: FormData (name, email, message, hidden "company" honeypot). Used by: contact-form.tsx.
+ * Purpose: server action for the contact form. Validates with Zod (choices must come from content/contact.ts),
+ * ignores bots (honeypot), sends via the Resend REST API when env vars are set, otherwise returns a mailto fallback.
+ * Inputs: FormData (name, email, phone, projectType, budget, timeline, message, hidden "company" honeypot).
+ * Used by: contact-form.tsx.
  */
-import { contactSchema, type ContactField, type ContactState } from "@/lib/contact";
+import { createContactSchema } from "@/lib/contact";
 import { getEnv } from "@/lib/env";
 import { real } from "@/lib/content/real";
+import {
+  buildInquiryText,
+  type ContactField,
+  type ContactState,
+  type ContactValues,
+} from "@/lib/inquiry";
+import { contactContent } from "@content/contact";
 import { profile } from "@content/profile";
 
-function mailtoUrl(to: string, name: string, email: string, message: string): string {
-  const subject = `Portfolio inquiry from ${name}`;
-  const body = `${message}\n\n${name} <${email}>`;
-  return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
+const schema = createContactSchema(contactContent.options);
+const FIELDS: ContactField[] = [
+  "name",
+  "email",
+  "phone",
+  "projectType",
+  "budget",
+  "timeline",
+  "message",
+];
 
 export async function submitContact(
   _prev: ContactState,
@@ -24,13 +37,11 @@ export async function submitContact(
   if (String(formData.get("company") ?? "") !== "")
     return { status: "success", message: "Thanks!" };
 
-  const values = {
-    name: String(formData.get("name") ?? ""),
-    email: String(formData.get("email") ?? ""),
-    message: String(formData.get("message") ?? ""),
-  };
+  const values = Object.fromEntries(
+    FIELDS.map((f) => [f, String(formData.get(f) ?? "")]),
+  ) as ContactValues;
 
-  const parsed = contactSchema.safeParse(values);
+  const parsed = schema.safeParse(values);
   if (!parsed.success) {
     const fieldErrors: Partial<Record<ContactField, string>> = {};
     for (const issue of parsed.error.issues) {
@@ -40,7 +51,12 @@ export async function submitContact(
     return { status: "error", message: "Please fix the highlighted fields.", fieldErrors, values };
   }
 
-  const { name, email, message } = parsed.data;
+  const data = parsed.data;
+  const text = buildInquiryText(data, "New inquiry from the portfolio");
+  const subject = `Portfolio inquiry: ${data.projectType} from ${data.name}`.replace(
+    /[\r\n]+/g,
+    " ",
+  );
   const to = real(profile.email);
   const env = getEnv();
 
@@ -55,12 +71,13 @@ export async function submitContact(
         body: JSON.stringify({
           from: env.CONTACT_FROM_EMAIL,
           to: [env.CONTACT_TO_EMAIL],
-          reply_to: email,
-          subject: `Portfolio inquiry from ${name.replace(/[\r\n]+/g, " ")}`,
-          text: `${message}\n\nFrom: ${name} <${email}>`,
+          reply_to: data.email,
+          subject,
+          text,
         }),
       });
-      if (res.ok) return { status: "success", message: "Thanks! Your message was sent." };
+      if (res.ok)
+        return { status: "success", message: "Thanks! Your message was sent. I will reply soon." };
     } catch {
       // fall through to the mailto fallback
     }
@@ -71,7 +88,7 @@ export async function submitContact(
       status: "fallback",
       message:
         "I could not send this automatically. Use the button to send it from your email app.",
-      mailto: mailtoUrl(to, name, email, message),
+      mailto: `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`,
       values,
     };
   }

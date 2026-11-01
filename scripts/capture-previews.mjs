@@ -14,6 +14,7 @@ const DEFAULT_TARGETS = {
   "estate-demo": "https://estate-demo-nu.vercel.app/",
   nexymark: "https://nexymark.com",
   "al-hesan": "https://alhesanalabyadhbuildingmaterials.com/en",
+  "portfolio-site": "https://www.noshadahmad.com",
 };
 
 const W = 1280;

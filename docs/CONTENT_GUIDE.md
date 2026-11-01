@@ -60,3 +60,21 @@ Edit `content/sections.ts`. Components contain no marketing copy.
 ## What the UI hides
 
 Any value that is still `todo(...)` is hidden (links, summaries, photo, availability). Fill it and it appears.
+
+# Content guide addendum (contact line and form)
+
+Append to `docs/CONTENT_GUIDE.md`, then delete this file.
+
+## Contact line and form options
+
+Edit `content/contact.ts`:
+
+- `phone`: digits only with the leading 0 (for example `03001234567`); `phoneDisplay`: how it is shown; `countryCode`: `92` for Pakistan. WhatsApp and call links are generated from these.
+- `whatsappGreeting`: first line of the pre-filled WhatsApp message.
+- `options.projectTypes`, `options.budgets`, `options.timelines`: the pill choices in the form. Plain text. The server only accepts values listed here. Keep one budget option like "I will decide later".
+
+This is the ONLY content file allowed to contain a phone number (`tests/privacy.test.ts` enforces it). Never put a personal number in `/content`.
+
+## Recording a project preview
+
+Run `pnpm capture <slug>=<url>` (see docs/MEDIA_GUIDE.md). The portfolio itself is the project `portfolio-site`.
