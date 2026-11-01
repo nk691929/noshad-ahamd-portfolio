@@ -10,12 +10,13 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { TiltCard } from "@/components/motion/tilt-card";
 import { ProjectCard } from "@/components/ui/project-card";
-import type { Project, ProjectTag } from "@/lib/content/schemas";
+import type { ProjectTag } from "@/lib/content/schemas";
+import type { ProjectWithMedia } from "@/lib/projects";
 import { duration, ease, pickVariants, useReduced } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  projects: Project[];
+  projects: ProjectWithMedia[];
   tags: ProjectTag[];
   allLabel: string;
   caseStudyLabel: string;

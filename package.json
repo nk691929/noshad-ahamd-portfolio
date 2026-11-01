@@ -14,7 +14,8 @@
     "test:e2e": "playwright test",
     "prepare": "husky",
     "todo": "node scripts/list-todos.mjs",
-    "github:snapshot": "node scripts/github-snapshot.mjs"
+    "github:snapshot": "node scripts/github-snapshot.mjs",
+    "capture": "node scripts/capture-previews.mjs"
   },
   "lint-staged": {
     "*.{ts,tsx,js,mjs}": [
@@ -39,6 +40,7 @@
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.4",
+    "@playwright/test": "^1.64.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
