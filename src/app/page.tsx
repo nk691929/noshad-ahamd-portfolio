@@ -11,6 +11,7 @@ import { Hero } from "@/components/sections/hero";
 import { Nav } from "@/components/sections/nav";
 import { Projects } from "@/components/sections/projects";
 import { Skills } from "@/components/sections/skills";
+import { WhatsAppFab } from "@/components/ui/whatsapp-fab";
 
 export const revalidate = 3600;
 
@@ -28,6 +29,7 @@ export default function HomePage() {
         <Contact />
       </main>
       <Footer />
+      <WhatsAppFab />
     </>
   );
 }

@@ -1,38 +1,67 @@
 "use client";
 
 /**
- * Purpose: validated contact form wired to the submitContact server action (React 19 useActionState).
- * Server returns field errors, the entered values (React resets uncontrolled forms) and a mailto fallback.
- * Inputs: none. Used by: sections/contact.tsx.
+ * Purpose: validated project-inquiry form wired to the submitContact server action (React 19 useActionState).
+ * Fields help assess the project: what is needed (website/app), budget (or "decide later"), timeline, message.
+ * Also offers "Send on WhatsApp", which opens a pre-filled chat with the same details.
+ * Inputs: options (from content/contact.ts), WhatsApp number in international digits, greeting. No content imports.
+ * Used by: sections/contact.tsx.
  */
-import { useActionState } from "react";
+import { useActionState, useRef } from "react";
 import { submitContact } from "@/app/actions/contact";
 import { buttonClasses } from "@/components/ui/button";
-import type { ContactField, ContactState } from "@/lib/contact";
+import { ChoiceGroup } from "@/components/ui/choice-group";
+import type { ContactContent } from "@/lib/content/contact-schema";
+import { buildInquiryText, type ContactField, type ContactState } from "@/lib/inquiry";
+import { whatsappUrl } from "@/lib/phone";
 
 const initial: ContactState = { status: "idle" };
 
 const inputClass =
   "w-full rounded-md border border-border bg-bg-elevated px-4 py-3 text-fg placeholder:text-fg-muted aria-[invalid=true]:border-accent";
 
-export function ContactForm() {
+type Props = { options: ContactContent["options"]; whatsappDigits: string; greeting: string };
+
+export function ContactForm({ options, whatsappDigits, greeting }: Props) {
   const [state, action, pending] = useActionState(submitContact, initial);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  function sendWhatsApp() {
+    if (!formRef.current) return;
+    const data = new FormData(formRef.current);
+    const get = (key: ContactField) => String(data.get(key) ?? "");
+    const text = buildInquiryText(
+      {
+        name: get("name"),
+        email: get("email"),
+        phone: get("phone"),
+        projectType: get("projectType"),
+        budget: get("budget"),
+        timeline: get("timeline"),
+        message: get("message"),
+      },
+      greeting,
+    );
+    window.open(whatsappUrl(whatsappDigits, text), "_blank", "noopener,noreferrer");
+  }
 
   function field(
     name: ContactField,
     label: string,
     props: React.InputHTMLAttributes<HTMLInputElement> = {},
+    required = true,
   ) {
     const error = state.fieldErrors?.[name];
     return (
       <div className="flex flex-col gap-2">
         <label htmlFor={name} className="text-sm text-fg-muted">
           {label}
+          {required ? "" : " (optional)"}
         </label>
         <input
           id={name}
           name={name}
-          required
+          required={required}
           defaultValue={state.values?.[name]}
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? `${name}-error` : undefined}
@@ -51,18 +80,53 @@ export function ContactForm() {
   const messageError = state.fieldErrors?.message;
 
   return (
-    <form action={action} className="glass flex flex-col gap-5 rounded-lg p-6 md:p-8" noValidate>
-      {field("name", "Name", { autoComplete: "name", minLength: 2, maxLength: 80 })}
-      {field("email", "Email", { type: "email", autoComplete: "email", maxLength: 120 })}
+    <form
+      ref={formRef}
+      action={action}
+      className="glass flex flex-col gap-6 rounded-lg p-6 md:p-8"
+      noValidate
+    >
+      <div className="grid gap-5 sm:grid-cols-2">
+        {field("name", "Name", { autoComplete: "name", minLength: 2, maxLength: 80 })}
+        {field("email", "Email", { type: "email", autoComplete: "email", maxLength: 120 })}
+      </div>
+      {field(
+        "phone",
+        "Phone or WhatsApp",
+        { type: "tel", autoComplete: "tel", maxLength: 30 },
+        false,
+      )}
+      <ChoiceGroup
+        name="projectType"
+        legend="What do you need?"
+        options={options.projectTypes}
+        defaultValue={state.values?.projectType}
+        error={state.fieldErrors?.projectType}
+      />
+      <ChoiceGroup
+        name="budget"
+        legend="Budget"
+        options={options.budgets}
+        defaultValue={state.values?.budget}
+        error={state.fieldErrors?.budget}
+      />
+      <ChoiceGroup
+        name="timeline"
+        legend="Timeline"
+        options={options.timelines}
+        defaultValue={state.values?.timeline}
+        error={state.fieldErrors?.timeline}
+        optional
+      />
       <div className="flex flex-col gap-2">
         <label htmlFor="message" className="text-sm text-fg-muted">
-          Message
+          Tell me about your project
         </label>
         <textarea
           id="message"
           name="message"
           required
-          rows={6}
+          rows={5}
           minLength={10}
           maxLength={2000}
           defaultValue={state.values?.message}
@@ -83,13 +147,18 @@ export function ContactForm() {
           <input name="company" tabIndex={-1} autoComplete="off" />
         </label>
       </div>
-      <button
-        type="submit"
-        disabled={pending}
-        className={buttonClasses("primary", "self-start disabled:opacity-60")}
-      >
-        {pending ? "Sending..." : "Send message"}
-      </button>
+      <div className="flex flex-wrap gap-3">
+        <button
+          type="submit"
+          disabled={pending}
+          className={buttonClasses("primary", "disabled:opacity-60")}
+        >
+          {pending ? "Sending..." : "Send message"}
+        </button>
+        <button type="button" onClick={sendWhatsApp} className={buttonClasses("secondary")}>
+          Send on WhatsApp
+        </button>
+      </div>
       <div aria-live="polite" className="min-h-6 text-sm">
         {state.message ? (
           <p className={state.status === "success" ? "text-fg" : "text-fg-muted"}>
