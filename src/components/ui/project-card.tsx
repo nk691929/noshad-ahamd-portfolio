@@ -31,7 +31,7 @@ export function ProjectCard({ project, large = false, caseStudyHref, caseStudyLa
   return (
     <article
       className={cn(
-        "glass flex h-full flex-col gap-4 rounded-lg p-6 transition-all duration-300 ease-out-expo hover:-translate-y-1 hover:bg-surface-hover motion-reduce:transition-none",
+        "glass flex h-full flex-col gap-4 rounded-lg p-6 transition-colors duration-300 hover:bg-surface-hover motion-reduce:transition-none",
         large && "lg:justify-end lg:p-8",
       )}
     >

@@ -32,3 +32,23 @@ Never hard-code hex colors in components.
 ## Theme behavior
 
 `next-themes` sets `data-theme` on `<html>` via a blocking script (no flash). Default is dark, OS preference is ignored, the choice persists.
+
+# Design system addendum: motion rules (step 5)
+
+Append to `docs/DESIGN_SYSTEM.md`, then delete this file.
+
+## Motion rules
+
+1. Animate only `transform` and `opacity`. No animating width, height, top/left, blur or box-shadow.
+2. Define animations ONLY in `src/lib/motion` (`tokens.ts` mirrors `tokens.css`; `variants.ts` holds presets). Never inline durations or easings in components.
+3. Every preset needs a `full` and a `reduced` variant. Reduced = opacity only. `tests/motion.test.ts` enforces it.
+4. Effects that depend on a mouse (cursor, tilt, magnetic) must check `useFinePointer()` and `useReduced()`.
+5. Heavy effects load lazily (Lenis in an effect, the cursor via `next/dynamic` after idle).
+6. The hero uses CSS (`.rise`) so LCP never waits for hydration; use Motion for everything below the fold.
+
+## Recipes
+
+- Reveal on scroll: wrap content in `<Reveal>`; staggered groups use `<Stagger>` with `<StaggerItem>` children (items must be inside a Stagger).
+- Heading: render `<SplitText text="..." />` inside the heading element.
+- New preset: add it to `presets` in `variants.ts` with both variants, then `pickVariants("name", reduced)`.
+- Elements with a hidden initial state carry `data-reveal`, so the `<noscript>` rule in `layout.tsx` shows them without JavaScript.

@@ -6,8 +6,10 @@
  * Animated indicator pill is added in step 5. Used by: sections/nav.tsx.
  */
 import { useEffect, useState } from "react";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { spring, useReduced } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -20,6 +22,7 @@ type Props = {
 export function NavBar({ brand, items, resumeHref, resumeLabel }: Props) {
   const [active, setActive] = useState("");
   const [open, setOpen] = useState(false);
+  const reduced = useReduced();
 
   useEffect(() => {
     const els = items
@@ -60,11 +63,19 @@ export function NavBar({ brand, items, resumeHref, resumeLabel }: Props) {
                   href={`#${item.id}`}
                   aria-current={active === item.id ? "location" : undefined}
                   className={cn(
-                    "rounded-full px-4 py-2 text-sm transition-colors",
-                    active === item.id ? "bg-surface-hover text-fg" : "text-fg-muted hover:text-fg",
+                    "relative rounded-full px-4 py-2 text-sm transition-colors",
+                    active === item.id ? "text-fg" : "text-fg-muted hover:text-fg",
                   )}
                 >
-                  {item.label}
+                  {active === item.id ? (
+                    <motion.span
+                      layoutId="nav-pill"
+                      aria-hidden="true"
+                      className="absolute inset-0 rounded-full bg-surface-hover"
+                      transition={reduced ? { duration: 0 } : spring.pill}
+                    />
+                  ) : null}
+                  <span className="relative z-10">{item.label}</span>
                 </a>
               </li>
             ))}

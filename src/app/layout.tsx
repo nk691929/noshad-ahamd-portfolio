@@ -4,6 +4,7 @@
  */
 import type { Metadata } from "next";
 import { fontDisplay, fontMono, fontText } from "@/lib/fonts";
+import { MotionRoot } from "@/components/motion/motion-root";
 import { ThemeProvider } from "@/components/theme-provider";
 import "@/styles/globals.css";
 import "@/styles/sections.css";
@@ -27,7 +28,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         >
           Skip to content
         </a>
+        <noscript>
+          <style>{"[data-reveal]{opacity:1!important;transform:none!important}"}</style>
+        </noscript>
         <ThemeProvider>{children}</ThemeProvider>
+        <MotionRoot />
       </body>
     </html>
   );
