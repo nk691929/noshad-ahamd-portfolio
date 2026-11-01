@@ -2,7 +2,9 @@
  * Purpose: hero with name, rotating role line, pitch, CTAs, optional portrait and a GPU-cheap animated background.
  * The staggered load sequence is pure CSS (.rise) so it runs at first paint. The portrait appears automatically when
  * public/images/profile.(jpg|webp|png|avif) exists (or content/profile.ts sets `photo`).
- * Inputs: content/profile.ts, content/sections.ts, lib/media.ts.
+ * Photo treatment (styles in styles/photo.css): spinning gradient border, curtain + zoom reveal on load, gentle float,
+ * mouse tilt/spotlight, and two floating chips with the owner's core skills. Transform/opacity only.
+ * Inputs: content/profile.ts, content/sections.ts, content/skills.ts, lib/media.ts.
  */
 import Image from "next/image";
 import { Magnetic } from "@/components/motion/magnetic";
@@ -13,8 +15,10 @@ import { RotatingRole } from "@/components/ui/rotating-role";
 import { real } from "@/lib/content/real";
 import { profilePhoto } from "@/lib/media";
 import { cn } from "@/lib/utils";
+import "@/styles/photo.css";
 import { profile } from "@content/profile";
 import { sectionsCopy } from "@content/sections";
+import { skills } from "@content/skills";
 
 const step = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
@@ -23,6 +27,7 @@ export function Hero() {
   const availability = real(profile.availability);
   const photo = real(profile.photo) ?? profilePhoto();
   const copy = sectionsCopy.hero;
+  const chips = skills.filter((s) => s.tier === "core").slice(0, 2);
 
   return (
     <section
@@ -76,18 +81,41 @@ export function Hero() {
         </div>
         {photo ? (
           <div className="rise mx-auto w-full max-w-sm" style={step(2)}>
-            <TiltCard maxTilt={4} className="rounded-lg">
-              <div className="glass relative aspect-[4/5] overflow-hidden rounded-lg shadow-glow">
-                <Image
-                  src={photo}
-                  alt={`Portrait of ${profile.name}`}
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 30vw, 80vw"
-                  className="object-cover"
-                />
-              </div>
-            </TiltCard>
+            <div className="photo-float relative">
+              {chips[0] ? (
+                <span
+                  aria-hidden="true"
+                  className="chip-float-a glass absolute -left-4 top-10 z-20 rounded-full px-4 py-2 font-mono text-sm shadow-md"
+                >
+                  {chips[0].name}
+                </span>
+              ) : null}
+              {chips[1] ? (
+                <span
+                  aria-hidden="true"
+                  className="chip-float-b glass absolute -right-3 bottom-16 z-20 rounded-full px-4 py-2 font-mono text-sm shadow-md"
+                >
+                  {chips[1].name}
+                </span>
+              ) : null}
+              <TiltCard maxTilt={4} className="rounded-lg">
+                <div className="relative overflow-hidden rounded-lg p-[2px] shadow-glow">
+                  <span aria-hidden="true" className="photo-spin" />
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-[calc(var(--r-lg)-2px)] bg-bg-elevated">
+                    <Image
+                      src={photo}
+                      alt={`Portrait of ${profile.name}`}
+                      fill
+                      priority
+                      sizes="(min-width: 1024px) 30vw, 80vw"
+                      className="photo-zoom object-cover object-top"
+                    />
+                    <span aria-hidden="true" className="photo-vignette" />
+                    <span aria-hidden="true" className="photo-curtain" />
+                  </div>
+                </div>
+              </TiltCard>
+            </div>
           </div>
         ) : null}
       </div>
