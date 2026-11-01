@@ -1,13 +1,17 @@
 "use client";
 
 /**
- * Purpose: bento project grid with tag filters. The first card is large, the second is wide.
- * Inputs: ranked projects, tags in use, labels, and whether case-study routes exist (no content imports).
- * Layout animation between filters is added in step 5. Used by: sections/projects.tsx.
+ * Purpose: bento project grid with tag filters. The first card is large, the second is wide. Cards reveal on scroll,
+ * animate their position when filters change (layout animation, skipped under reduced motion) and tilt on hover.
+ * Inputs: ranked projects, tags in use, labels, whether case-study routes exist (no content imports).
+ * Used by: sections/projects.tsx.
  */
 import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { TiltCard } from "@/components/motion/tilt-card";
 import { ProjectCard } from "@/components/ui/project-card";
 import type { Project, ProjectTag } from "@/lib/content/schemas";
+import { duration, ease, pickVariants, useReduced } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -25,12 +29,13 @@ export function ProjectsGrid({
   caseStudyLabel,
   caseStudiesReady,
 }: Props) {
+  const reduced = useReduced();
   const [tag, setTag] = useState<ProjectTag | "all">("all");
   const visible = useMemo(
     () => (tag === "all" ? projects : projects.filter((p) => p.tags.includes(tag))),
     [projects, tag],
   );
-
+  const variants = pickVariants("fadeUp", reduced);
   const filters: Array<ProjectTag | "all"> = ["all", ...tags];
 
   return (
@@ -57,21 +62,33 @@ export function ProjectsGrid({
         {visible.length} projects shown
       </p>
       <ul className="grid gap-4 sm:grid-cols-2 lg:auto-rows-[minmax(230px,auto)] lg:grid-cols-4">
-        {visible.map((project, i) => (
-          <li
-            key={project.slug}
-            className={cn(i === 0 && "sm:col-span-2 lg:row-span-2", i === 1 && "lg:col-span-2")}
-          >
-            <ProjectCard
-              project={project}
-              large={i === 0}
-              caseStudyLabel={caseStudyLabel}
-              {...(caseStudiesReady && project.caseStudy
-                ? { caseStudyHref: `/projects/${project.slug}` }
-                : {})}
-            />
-          </li>
-        ))}
+        <AnimatePresence mode="popLayout" initial={false}>
+          {visible.map((project, i) => (
+            <motion.li
+              key={project.slug}
+              data-reveal
+              layout={!reduced}
+              variants={variants}
+              initial="hidden"
+              whileInView="show"
+              exit="exit"
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ layout: { duration: duration.slow, ease: ease.outExpo } }}
+              className={cn(i === 0 && "sm:col-span-2 lg:row-span-2", i === 1 && "lg:col-span-2")}
+            >
+              <TiltCard className="h-full rounded-lg">
+                <ProjectCard
+                  project={project}
+                  large={i === 0}
+                  caseStudyLabel={caseStudyLabel}
+                  {...(caseStudiesReady && project.caseStudy
+                    ? { caseStudyHref: `/projects/${project.slug}` }
+                    : {})}
+                />
+              </TiltCard>
+            </motion.li>
+          ))}
+        </AnimatePresence>
       </ul>
     </div>
   );
