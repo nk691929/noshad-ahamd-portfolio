@@ -1,0 +1,110 @@
+/**
+ * Purpose: hero portrait treatment. Imported by components/sections/hero.tsx. Transform/opacity animation only.
+ * Pure CSS so it starts at first paint and survives without JavaScript. All of it is disabled (and the curtain
+ * removed) under prefers-reduced-motion.
+ */
+
+/* Spinning conic-gradient border: a large square rotated behind the photo; the 2px padding shows it as a ring. */
+.photo-spin {
+  position: absolute;
+  inset: -60%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0 55%,
+    var(--accent-1) 72%,
+    var(--accent-2) 88%,
+    transparent 100%
+  );
+  animation: photo-spin 7s linear infinite;
+  will-change: transform;
+}
+@keyframes photo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Load reveal: a page-coloured curtain wipes away downward while the photo settles from a slight zoom. */
+.photo-curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: var(--bg);
+  transform-origin: top;
+  animation: photo-curtain 1.1s var(--ease-out-expo) 0.45s both;
+  pointer-events: none;
+}
+@keyframes photo-curtain {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(0);
+  }
+}
+
+.photo-zoom {
+  transform-origin: center top;
+  animation: photo-zoom 1.8s var(--ease-out-expo) 0.3s both;
+}
+@keyframes photo-zoom {
+  from {
+    transform: scale(1.25);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Soft blend into the page at the bottom edge. */
+.photo-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--bg) 45%, transparent),
+    transparent 35%
+  );
+}
+
+/* Gentle idle float for the whole photo block and slower, offset floats for the two chips. */
+.photo-float {
+  animation: photo-float 8s ease-in-out infinite alternate;
+}
+.chip-float-a {
+  animation: chip-float 6s ease-in-out infinite alternate;
+}
+.chip-float-b {
+  animation: chip-float 7.5s ease-in-out -2s infinite alternate-reverse;
+}
+@keyframes photo-float {
+  to {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+@keyframes chip-float {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-spin,
+  .photo-zoom,
+  .photo-float,
+  .chip-float-a,
+  .chip-float-b {
+    animation: none;
+  }
+  .photo-curtain {
+    display: none;
+  }
+  .photo-spin {
+    transform: none;
+  }
+}
