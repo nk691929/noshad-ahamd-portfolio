@@ -52,3 +52,21 @@ Append to `docs/DESIGN_SYSTEM.md`, then delete this file.
 - Heading: render `<SplitText text="..." />` inside the heading element.
 - New preset: add it to `presets` in `variants.ts` with both variants, then `pickVariants("name", reduced)`.
 - Elements with a hidden initial state carry `data-reveal`, so the `<noscript>` rule in `layout.tsx` shows them without JavaScript.
+
+# Design system addendum (light theme, project groups, icons)
+
+Append to `docs/DESIGN_SYSTEM.md`, then delete this file.
+
+## Light theme
+
+- Tokens live in `tokens.css` (`:root[data-theme="light"]`): cool-tinted base `#f4f7fb`, frosted white glass `--surface`, deeper accent. Contrast is enforced by `tests/tokens.test.ts`.
+- `src/styles/light.css` adds the fixed gradient mesh (`body::before`, one static layer so scrolling never repaints it), soft glass shadows and faint white bands behind the Skills and Experience sections. It also holds the dotted hero grid and teal blob used in both themes.
+- `--accent-3` (teal) matches the portrait photo and is only used for glows.
+
+## Project groups
+
+Projects are split into "Mobile apps" and "Websites" by tag: a project with a Flutter, Android or Mobile tag is an app; everything else is a website (`groupOf` in `lib/projects.ts`). Titles and intros: `content/sections.ts`.
+
+## Icons
+
+`src/app/icon.png`, `src/app/apple-icon.png` and `src/app/favicon.ico` are generated from the portrait; Next.js links them automatically. `src/app/manifest.ts` supplies the home-screen name and icons. To change the icon, replace those three files (keep the names).

@@ -32,9 +32,19 @@ export const sectionsCopy = {
   projects: {
     eyebrow: "Projects",
     title: "Selected work",
-    intro: "My strongest work first. Filter by type.",
+    intro: "Mobile apps and websites, strongest work first.",
     all: "All",
     caseStudy: "Read case study",
+    groups: {
+      apps: {
+        title: "Mobile apps",
+        intro: "Flutter-first apps, plus a React Native app and a native Android app.",
+      },
+      web: {
+        title: "Websites",
+        intro: "Business sites and web tools built with Next.js, TypeScript and HTML.",
+      },
+    },
   },
   experience: { eyebrow: "Experience", title: "Experience and education" },
   github: {

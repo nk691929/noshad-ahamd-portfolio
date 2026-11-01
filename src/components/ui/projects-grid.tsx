@@ -21,6 +21,8 @@ type Props = {
   allLabel: string;
   caseStudyLabel: string;
   caseStudiesReady: boolean;
+  /** what this grid shows, for screen readers (for example "mobile apps") */
+  label: string;
 };
 
 export function ProjectsGrid({
@@ -29,6 +31,7 @@ export function ProjectsGrid({
   allLabel,
   caseStudyLabel,
   caseStudiesReady,
+  label,
 }: Props) {
   const reduced = useReduced();
   const [tag, setTag] = useState<ProjectTag | "all">("all");
@@ -41,7 +44,11 @@ export function ProjectsGrid({
 
   return (
     <div>
-      <div role="group" aria-label="Filter projects" className="mb-8 flex flex-wrap gap-2">
+      <div
+        role="group"
+        aria-label={`Filter ${label}`}
+        className={cn("mb-8 flex flex-wrap gap-2", tags.length < 2 && "hidden")}
+      >
         {filters.map((f) => (
           <button
             key={f}
@@ -60,7 +67,7 @@ export function ProjectsGrid({
         ))}
       </div>
       <p className="sr-only" aria-live="polite">
-        {visible.length} projects shown
+        {visible.length} {label} shown
       </p>
       <ul className="grid gap-4 sm:grid-cols-2 lg:auto-rows-[minmax(230px,auto)] lg:grid-cols-4">
         <AnimatePresence mode="popLayout" initial={false}>
