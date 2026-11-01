@@ -36,6 +36,8 @@ export function Hero() {
       className="relative isolate flex min-h-svh items-center overflow-hidden pb-16 pt-28"
     >
       <div aria-hidden="true" className="absolute inset-0 -z-10">
+        <div className="hero-grid" />
+        <div className="hero-blob hero-blob--c" />
         <Parallax distance={120}>
           <div className="hero-blob hero-blob--a" />
         </Parallax>

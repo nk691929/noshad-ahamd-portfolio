@@ -8,6 +8,7 @@ import { MotionRoot } from "@/components/motion/motion-root";
 import { ThemeProvider } from "@/components/theme-provider";
 import "@/styles/globals.css";
 import "@/styles/sections.css";
+import "@/styles/light.css";
 
 export const metadata: Metadata = {
   title: "Noshad Ahmad | Flutter Developer",

@@ -1,0 +1,82 @@
+/**
+ * Purpose: light-theme polish and shared decorative layers. Imported by src/app/layout.tsx AFTER sections.css.
+ * Light mode gets: a fixed gradient mesh (one static layer, no repaint on scroll), frosted-glass cards with soft
+ * shadows, tinted section bands. Both themes get the dotted hero grid and the third teal blob.
+ */
+
+/* ---- Decorative hero layers (both themes) ---- */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 25%, transparent 75%);
+}
+.hero-blob--c {
+  width: 36vmax;
+  height: 36vmax;
+  top: 28%;
+  right: -6vmax;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--accent-3) 38%, transparent),
+    transparent
+  );
+  animation: drift-a 30s ease-in-out infinite alternate-reverse;
+}
+
+/* ---- Light theme ---- */
+:root[data-theme="light"] body {
+  background: transparent; /* lets the fixed mesh below show through */
+}
+:root[data-theme="light"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 38rem at 8% -8%, rgb(19 185 253 / 0.2), transparent 62%),
+    radial-gradient(52rem 34rem at 96% 2%, rgb(2 86 155 / 0.13), transparent 58%),
+    radial-gradient(46rem 30rem at 70% 105%, rgb(20 184 166 / 0.14), transparent 60%),
+    linear-gradient(180deg, #f6f9fd 0%, #eef3fa 100%);
+}
+
+:root[data-theme="light"] .hero-blob {
+  opacity: 0.6;
+}
+
+/* Frosted white glass with an inner highlight and a soft coloured shadow on hover */
+:root[data-theme="light"] .glass {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 10px 30px rgb(11 18 32 / 0.06);
+}
+:root[data-theme="light"] .glass:hover {
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 18px 44px rgb(2 86 155 / 0.13);
+}
+
+/* Alternate sections get a faint white band so the page has rhythm */
+:root[data-theme="light"] #skills,
+:root[data-theme="light"] #experience {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgb(255 255 255 / 0.6) 18%,
+    rgb(255 255 255 / 0.6) 82%,
+    transparent
+  );
+}
+
+:root[data-theme="light"] footer {
+  background: rgb(255 255 255 / 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-blob--c {
+    animation: none;
+  }
+}
