@@ -46,6 +46,15 @@ export const sectionsCopy = {
       },
     },
   },
+  showcase: {
+    eyebrow: "Featured work",
+    title: "Featured projects, up close",
+    hint: "Keep scrolling to move through the projects.",
+    jump: "Jump to a project",
+    live: "Live site",
+    github: "GitHub",
+    caseStudy: "Read case study",
+  },
   experience: { eyebrow: "Experience", title: "Experience and education" },
   github: {
     eyebrow: "GitHub",

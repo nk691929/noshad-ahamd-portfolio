@@ -9,11 +9,19 @@ import { ThemeProvider } from "@/components/theme-provider";
 import "@/styles/globals.css";
 import "@/styles/sections.css";
 import "@/styles/light.css";
+import "@/styles/scene.css";
 
 export const metadata: Metadata = {
   title: "Noshad Ahmad | Flutter Developer",
   description: "Portfolio of Noshad Ahmad, Flutter developer and AI-enabled web builder.",
 };
+
+/**
+ * Decides, before first paint, whether the 3D scene may run: WebGL available, no reduced motion, no data saver, not a
+ * very low-end device. Sets <html data-scene="on">; CSS then reserves room for the 3D laptop. If anything fails later
+ * the attribute becomes "off" and the static design is used. (Creating and immediately losing a context is cheap.)
+ */
+const SCENE_GATE = `(function(){try{var d=document.documentElement;var rm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;var c=navigator.connection;var sd=!!(c&&c.saveData);var lowMem=typeof navigator.deviceMemory==="number"&&navigator.deviceMemory<2;var lowCpu=typeof navigator.hardwareConcurrency==="number"&&navigator.hardwareConcurrency<=2;var cv=document.createElement("canvas");var gl=cv.getContext("webgl2")||cv.getContext("webgl");if(gl){var x=gl.getExtension("WEBGL_lose_context");if(x)x.loseContext();}if(gl&&!rm&&!sd&&!lowMem&&!lowCpu)d.setAttribute("data-scene","on");}catch(e){}})();`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -23,6 +31,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       className={`${fontDisplay.variable} ${fontText.variable} ${fontMono.variable}`}
     >
       <body className="grain">
+        <script dangerouslySetInnerHTML={{ __html: SCENE_GATE }} />
         <a
           href="#main"
           className="sr-only z-[200] rounded-full bg-fg px-4 py-2 text-bg focus:not-sr-only focus:fixed focus:left-4 focus:top-4"

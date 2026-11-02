@@ -9,9 +9,12 @@ import { Footer } from "@/components/sections/footer";
 import { GithubActivity } from "@/components/sections/github-activity";
 import { Hero } from "@/components/sections/hero";
 import { Nav } from "@/components/sections/nav";
+import { ProjectShowcase } from "@/components/sections/project-showcase";
 import { Projects } from "@/components/sections/projects";
 import { Skills } from "@/components/sections/skills";
+import { SceneLoader } from "@/components/scene/scene-loader";
 import { WhatsAppFab } from "@/components/ui/whatsapp-fab";
+import { getSceneData } from "@/lib/scene-data";
 
 export const revalidate = 3600;
 
@@ -23,6 +26,7 @@ export default function HomePage() {
         <Hero />
         <About />
         <Skills />
+        <ProjectShowcase />
         <Projects />
         <Experience />
         <GithubActivity />
@@ -30,6 +34,7 @@ export default function HomePage() {
       </main>
       <Footer />
       <WhatsAppFab />
+      <SceneLoader data={getSceneData()} />
     </>
   );
 }

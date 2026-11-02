@@ -18,12 +18,20 @@ export function findFile(
   extensions: readonly string[],
 ): string | undefined {
   for (const ext of extensions) {
-    if (fs.existsSync(path.join(dir, `${name}.${ext}`))) return `${publicBase}/${name}.${ext}`;
+    // The turbopackIgnore comments stop the bundler from tracing the whole project into the server build.
+    if (
+      fs.existsSync(
+        /*turbopackIgnore: true*/ path.join(/*turbopackIgnore: true*/ dir, `${name}.${ext}`),
+      )
+    ) {
+      return `${publicBase}/${name}.${ext}`;
+    }
   }
   return undefined;
 }
 
-const publicDir = (...parts: string[]) => path.join(process.cwd(), "public", ...parts);
+const publicDir = (...parts: string[]) =>
+  path.join(/*turbopackIgnore: true*/ process.cwd(), "public", ...parts);
 
 export function projectMedia(slug: string): { cover?: string; video?: string } {
   const cover = findFile(publicDir("media"), "/media", slug, IMAGE_EXTENSIONS);

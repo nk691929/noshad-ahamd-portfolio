@@ -1,0 +1,63 @@
+/**
+ * Purpose: layout switches for the 3D scene. Everything here is keyed on <html data-scene="on"> (set before first paint
+ * by the gate script in layout.tsx). When the scene is off or fails, none of these rules apply and the original static
+ * design is shown. Imported by src/app/layout.tsx.
+ */
+
+/* The fixed WebGL canvas sits behind the page; the page background must not cover it. */
+html[data-scene="on"] body {
+  background: transparent;
+}
+
+/* The portrait moves from the hero to the About section when the 3D laptop takes the hero. */
+.scene-show {
+  display: none;
+}
+html[data-scene="on"] .scene-show {
+  display: block;
+}
+html[data-scene="on"] .scene-hide {
+  display: none;
+}
+
+/* The featured-projects showcase only exists in 3D mode. */
+html:not([data-scene="on"]) #showcase {
+  display: none;
+}
+
+/* Phones: leave room at the top for the laptop / constellation, copy below it. */
+.scene-spacer {
+  display: none;
+}
+@media (max-width: 1023px) {
+  html[data-scene="on"] .scene-spacer {
+    display: block;
+    height: 38svh;
+  }
+  html[data-scene="on"] .scene-spacer--tall {
+    height: 50svh;
+  }
+}
+
+/* Desktop: skills become a single column on the left so the constellation has the right half. */
+@media (min-width: 1024px) {
+  html[data-scene="on"] .skills-grid {
+    grid-template-columns: 1fr;
+    max-width: 30rem;
+  }
+
+  /* Soft scrim behind the hero copy so it stays readable over the scene. */
+  html[data-scene="on"] #top::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      var(--bg) 0%,
+      color-mix(in srgb, var(--bg) 72%, transparent) 36%,
+      transparent 62%
+    );
+  }
+}
