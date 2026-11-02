@@ -1,7 +1,7 @@
 /**
  * Purpose: all portfolio projects. TO ADD ONE: copy an entry, change slug/title/tags, done.
  * Sources: owner résumé, repo list and brief. Roles, periods and covers are TODO(owner).
- * `rank` sets display order (1 first, unique). `featured` adds a badge and is provisional. TODO(owner): pick the projects to feature.
+ * `rank` sets display order (1 first, unique; the top 6 also appear in the 3D showcase). `featured` adds a badge and is provisional. TODO(owner): pick the projects to feature.
  * Used by: projects section (bento + filters), case-study pages, sitemap, SEO.
  */
 import { projectSchema } from "@/lib/content/schemas";
@@ -33,7 +33,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "applylog",
-    rank: 3,
+    rank: 4,
     title: "ApplyLog",
     summary:
       "Job application tracker using Firebase Auth and Firestore, with automatic route protection and local follow-up reminders.",
@@ -46,7 +46,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "ecommerce-app",
-    rank: 6,
+    rank: 7,
     title: "E-Commerce App",
     summary:
       "Browsing app on a live REST API with infinite scroll, debounced search, category filters and a persistent cart.",
@@ -101,7 +101,7 @@ export const projects = z.array(projectSchema).parse([
   // ---- Main TypeScript / web projects ----
   {
     slug: "estate-demo",
-    rank: 2,
+    rank: 3,
     title: "Estate Demo",
     summary: "Real estate website demo (Prime Estates) with an admin area.",
     tags: ["Web"],
@@ -114,7 +114,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "nexymark",
-    rank: 5,
+    rank: 6,
     title: "NexyMark",
     summary: "My business: websites, apps and lead automation for real estate agents.",
     tags: ["Web"],
@@ -127,12 +127,12 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "al-hesan",
-    rank: 7,
+    rank: 2,
     title: "Al Hesan Al Abyadh Website",
     summary: "Website for a building materials trading company, delivered as a client project.",
     tags: ["Web"],
     stack: ["Next.js", "TypeScript"],
-    featured: false,
+    featured: true,
     caseStudy: false,
     client: "Muhammad Fahad, Al Hesan Al Abyadh Building Materials Trading",
     status: "live",
@@ -144,7 +144,7 @@ export const projects = z.array(projectSchema).parse([
   },
   {
     slug: "portfolio-site",
-    rank: 4,
+    rank: 5,
     title: "Noshad Ahmad Portfolio",
     summary:
       "This website: an animated, content-driven portfolio with a GitHub activity block and a project-inquiry form.",
