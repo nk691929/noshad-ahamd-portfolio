@@ -1,0 +1,51 @@
+/**
+ * Purpose: the "revolving light" border. Put <span class="ring" aria-hidden="true"/> inside any element that has
+ * position: relative and a border radius; a soft emerald/blue light sweeps around its edge. The ring is masked to a
+ * 1.5px border and only the gradient layer rotates (individual `rotate` property, GPU-friendly). Static under reduced
+ * motion. Imported by src/app/layout.tsx; TiltCard adds one automatically.
+ */
+.ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+.ring::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 300%;
+  aspect-ratio: 1 / 1;
+  translate: -50% -50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0 58%,
+    color-mix(in srgb, var(--accent-3) 85%, transparent) 74%,
+    var(--accent-2) 88%,
+    transparent 100%
+  );
+  animation: ring-spin 7s linear infinite;
+  will-change: rotate;
+}
+@keyframes ring-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ring::before {
+    animation: none;
+    opacity: 0.55;
+  }
+}

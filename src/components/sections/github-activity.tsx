@@ -35,7 +35,8 @@ export async function GithubActivity() {
       {data ? (
         <Reveal>
           <div className="grid gap-4 lg:grid-cols-[1fr_1.6fr]">
-            <div className="glass rounded-lg p-6">
+            <div className="glass relative rounded-lg p-6">
+              <span className="ring" aria-hidden="true" />
               <dl className="grid grid-cols-2 gap-4">
                 <div>
                   <dt className="text-sm text-fg-muted">Public repos</dt>

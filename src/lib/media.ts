@@ -3,6 +3,7 @@
  *   public/media/<project-slug>.(jpg|webp|png|avif)  -> project cover/poster
  *   public/media/<project-slug>.(webm|mp4)           -> looping muted project preview video
  *   public/images/profile.(jpg|webp|png|avif)        -> hero portrait
+ *   public/audio/ambient.(mp3|ogg|m4a|wav)           -> background music (otherwise a generated ambient pad plays)
  * Server only (reads the filesystem at build/revalidate time). Used by: lib/projects.ts, hero, tests.
  */
 import fs from "node:fs";
@@ -10,6 +11,7 @@ import path from "node:path";
 
 export const IMAGE_EXTENSIONS = ["avif", "webp", "jpg", "jpeg", "png"] as const;
 export const VIDEO_EXTENSIONS = ["webm", "mp4"] as const;
+export const AUDIO_EXTENSIONS = ["mp3", "ogg", "m4a", "wav"] as const;
 
 export function findFile(
   dir: string,
@@ -41,4 +43,8 @@ export function projectMedia(slug: string): { cover?: string; video?: string } {
 
 export function profilePhoto(): string | undefined {
   return findFile(publicDir("images"), "/images", "profile", IMAGE_EXTENSIONS);
+}
+
+export function ambientAudio(): string | undefined {
+  return findFile(publicDir("audio"), "/audio", "ambient", AUDIO_EXTENSIONS);
 }

@@ -83,9 +83,10 @@ export function ContactForm({ options, whatsappDigits, greeting }: Props) {
     <form
       ref={formRef}
       action={action}
-      className="glass flex flex-col gap-6 rounded-lg p-6 md:p-8"
+      className="glass relative flex flex-col gap-6 rounded-lg p-6 md:p-8"
       noValidate
     >
+      <span className="ring" aria-hidden="true" />
       <div className="grid gap-5 sm:grid-cols-2">
         {field("name", "Name", { autoComplete: "name", minLength: 2, maxLength: 80 })}
         {field("email", "Email", { type: "email", autoComplete: "email", maxLength: 120 })}

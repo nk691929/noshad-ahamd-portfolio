@@ -6,8 +6,10 @@
  * moves to the About section and the fixed 3D laptop occupies the right (desktop) or the top (phones, via the spacer).
  * Inputs: content/profile.ts, content/sections.ts, content/skills.ts, lib/media.ts.
  */
+import { HangingCard } from "@/components/motion/hanging-card";
 import { Magnetic } from "@/components/motion/magnetic";
 import { Parallax } from "@/components/motion/parallax";
+import { SocialLinks } from "@/components/sections/social-links";
 import { Button } from "@/components/ui/button";
 import { Portrait } from "@/components/ui/portrait";
 import { RotatingRole } from "@/components/ui/rotating-role";
@@ -79,10 +81,15 @@ export function Hero() {
               </Button>
             </Magnetic>
           </div>
+          <div className="rise mt-8" style={step(6)}>
+            <SocialLinks variant="icons" />
+          </div>
         </div>
         {photo ? (
           <div className="scene-hide rise mx-auto w-full max-w-sm" style={step(2)}>
-            <Portrait src={photo} name={profile.name} chips={chips.map((c) => c.name)} priority />
+            <HangingCard label={copy.hangLabel} hint={copy.dragHint}>
+              <Portrait src={photo} name={profile.name} chips={chips.map((c) => c.name)} priority />
+            </HangingCard>
           </div>
         ) : null}
       </div>

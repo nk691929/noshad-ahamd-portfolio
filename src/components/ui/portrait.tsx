@@ -28,7 +28,7 @@ export function Portrait({ src, name, chips = [], priority = false }: Props) {
           {chips[1]}
         </span>
       ) : null}
-      <TiltCard maxTilt={4} className="rounded-lg">
+      <TiltCard maxTilt={4} className="rounded-lg" ring={false}>
         <div className="relative overflow-hidden rounded-lg p-[2px] shadow-glow">
           <span aria-hidden="true" className="photo-spin" />
           <div className="relative aspect-[4/5] overflow-hidden rounded-[calc(var(--r-lg)-2px)] bg-bg-elevated">
