@@ -32,10 +32,10 @@ html:not([data-scene="on"]) #showcase {
 @media (max-width: 1023px) {
   html[data-scene="on"] .scene-spacer {
     display: block;
-    height: 38svh;
+    height: 46svh;
   }
   html[data-scene="on"] .scene-spacer--tall {
-    height: 50svh;
+    height: 52svh;
   }
 }
 

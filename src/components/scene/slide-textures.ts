@@ -123,7 +123,7 @@ export class SlideTextures {
 
   private finish(t: THREE.Texture) {
     t.colorSpace = THREE.SRGBColorSpace;
-    t.anisotropy = 4;
+    t.anisotropy = 8;
     return t;
   }
 

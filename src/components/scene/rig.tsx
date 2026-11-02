@@ -24,6 +24,8 @@ import {
 } from "@/lib/scene/timeline";
 
 export const FOV = 32;
+/** Phones: height of the fixed glass header; the 3D object must stay below it (and not look blurred behind it). */
+const HEADER_PX = 88;
 const LOOK_AT = new THREE.Vector3(0, 0.1, 0);
 
 type Props = {
@@ -101,7 +103,10 @@ export function Rig({ params, pivots, projectCount, lastSlide, onOpacity }: Prop
 
     const ax = portrait ? st.axP : st.axD;
     const ay = portrait ? st.ayP : st.ayD;
-    camera.setViewOffset(w, h, (0.5 - ax) * w, (0.5 - ay) * h, w, h);
+    const pxPerUnit = h / (2 * dist * half);
+    const halfObjectPx = st.extent * 0.62 * pxPerUnit * (1 - 0.7 * st.finale);
+    const ayPx = portrait ? Math.min(Math.max(ay * h, HEADER_PX + halfObjectPx), h * 0.6) : ay * h;
+    camera.setViewOffset(w, h, (0.5 - ax) * w, 0.5 * h - ayPx, w, h);
 
     onOpacity(st.opacity * introE);
   }, -1);

@@ -4,7 +4,7 @@
  * Purpose: the single, continuous 3D scene. One fixed full-screen WebGL canvas BEHIND the page content (never
  * intercepts pointer events, never scrolls the page). Contains the laptop, the technology constellation and the
  * emerald finale, all driven by one scroll timeline (see rig.tsx / timeline.ts).
- * Performance: pixel ratio capped (1.75 desktop / 1.25 phones, drops to 1 if frame rate falls), no shadows or
+ * Performance: pixel ratio up to 2 (steps down to 1.5, then 1, if the frame rate falls), no shadows or
  * post-processing, procedural environment, render loop paused while the canvas is hidden behind dense sections.
  * Loaded lazily (scene-loader.tsx). Used by: scene-loader.tsx.
  */
@@ -27,7 +27,9 @@ type Props = { data: SceneData; onFail: () => void };
 
 export function Scene({ data, onFail }: Props) {
   const [mobile] = useState(() => window.matchMedia("(max-width: 767px)").matches);
-  const [dprMax, setDprMax] = useState(mobile ? 1.25 : 1.75);
+  // Full device pixel ratio up to 2 for sharp phone screens; PerformanceMonitor steps it down if the frame rate drops.
+  const [dprMax, setDprMax] = useState(() => Math.min(window.devicePixelRatio || 1, 2));
+  const [antialias] = useState(() => (window.devicePixelRatio || 1) < 2);
   const [active, setActive] = useState(true);
   const wrap = useRef<HTMLDivElement>(null);
   const [params] = useState(createParams);
@@ -95,7 +97,7 @@ export function Scene({ data, onFail }: Props) {
       <Canvas
         dpr={[1, dprMax]}
         frameloop={active ? "always" : "never"}
-        gl={{ antialias: !mobile, alpha: true, powerPreference: "high-performance" }}
+        gl={{ antialias, alpha: true, powerPreference: "high-performance" }}
         camera={{ fov: FOV, near: 0.1, far: 60, position: [0, 0, 8] }}
         onCreated={({ gl }) => {
           gl.domElement.addEventListener("webglcontextlost", (e) => {
@@ -104,7 +106,7 @@ export function Scene({ data, onFail }: Props) {
           });
         }}
       >
-        <PerformanceMonitor onDecline={() => setDprMax(1)} />
+        <PerformanceMonitor onDecline={() => setDprMax((d) => (d > 1.5 ? 1.5 : 1))} />
         <Rig
           params={params}
           pivots={pivots}

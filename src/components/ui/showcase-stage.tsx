@@ -83,7 +83,8 @@ export function ShowcaseStage({ items, copy }: { items: ShowcaseItem[]; copy: Co
             <h2 id="showcase-title" className="sr-only">
               {copy.title}
             </h2>
-            <div className="glass mt-4 rounded-lg p-6">
+            <div className="glass relative mt-4 rounded-lg p-6">
+              <span className="ring" aria-hidden="true" />
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={item.slug}

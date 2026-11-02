@@ -2,6 +2,7 @@
  * Purpose: About section: story (staggered), quick facts and the tech marquee.
  * Inputs: content/profile.ts, content/skills.ts, content/sections.ts.
  */
+import { HangingCard } from "@/components/motion/hanging-card";
 import { Marquee } from "@/components/motion/marquee";
 import { Reveal } from "@/components/motion/reveal";
 import { Stagger } from "@/components/motion/stagger";
@@ -34,10 +35,13 @@ export function About() {
           <div className="flex flex-col gap-6">
             {photo ? (
               <div className="scene-show mx-auto w-full max-w-xs">
-                <Portrait src={photo} name={profile.name} />
+                <HangingCard label={sectionsCopy.hero.hangLabel} hint={sectionsCopy.hero.dragHint}>
+                  <Portrait src={photo} name={profile.name} />
+                </HangingCard>
               </div>
             ) : null}
-            <aside className="glass h-fit rounded-lg p-6" aria-labelledby="facts-title">
+            <aside className="glass relative h-fit rounded-lg p-6" aria-labelledby="facts-title">
+              <span className="ring" aria-hidden="true" />
               <h3 id="facts-title" className="font-display text-lg font-semibold">
                 {copy.factsTitle}
               </h3>

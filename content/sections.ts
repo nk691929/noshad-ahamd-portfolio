@@ -16,6 +16,9 @@ export const sectionsCopy = {
     primaryCta: "View work",
     secondaryCta: "Contact",
     resume: "Résumé",
+    hangLabel:
+      "Hanging portrait. Drag it, or press the left and right arrow keys, to make it swing.",
+    dragHint: "Grab the photo and swing it",
   },
   about: {
     eyebrow: "About",
@@ -54,6 +57,15 @@ export const sectionsCopy = {
     live: "Live site",
     github: "GitHub",
     caseStudy: "Read case study",
+  },
+  comments: {
+    eyebrow: "Comments",
+    title: "Leave a comment",
+    intro: "Say hello or share feedback. Comments appear after a quick review.",
+    empty: "No comments yet. Be the first to say hello.",
+    unavailable: "Comments could not be loaded right now. Please try again later.",
+    unconfigured:
+      "Preview only: comments switch on once Supabase is connected (see docs/COMMENTS.md).",
   },
   experience: { eyebrow: "Experience", title: "Experience and education" },
   github: {

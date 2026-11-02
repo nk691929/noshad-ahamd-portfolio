@@ -1,8 +1,9 @@
 /**
- * Purpose: root layout. Applies fonts, theme provider, grain overlay, skip link and base metadata.
- * Full SEO metadata arrives in step 7. Used by: every route.
+ * Purpose: root layout. Applies fonts, theme provider, grain overlay, skip link and the site-wide SEO metadata
+ * (lib/seo.ts). Used by: every route.
  */
 import type { Metadata } from "next";
+import { siteMetadata, viewport as siteViewport } from "@/lib/seo";
 import { fontDisplay, fontMono, fontText } from "@/lib/fonts";
 import { MotionRoot } from "@/components/motion/motion-root";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -10,11 +11,10 @@ import "@/styles/globals.css";
 import "@/styles/sections.css";
 import "@/styles/light.css";
 import "@/styles/scene.css";
+import "@/styles/ring.css";
 
-export const metadata: Metadata = {
-  title: "Noshad Ahmad | Flutter Developer",
-  description: "Portfolio of Noshad Ahmad, Flutter developer and AI-enabled web builder.",
-};
+export const metadata: Metadata = siteMetadata();
+export const viewport = siteViewport;
 
 /**
  * Decides, before first paint, whether the 3D scene may run: WebGL available, no reduced motion, no data saver, not a
