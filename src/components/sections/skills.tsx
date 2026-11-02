@@ -14,7 +14,8 @@ export function Skills() {
   const copy = sectionsCopy.skills;
   return (
     <Section id="skills" eyebrow={copy.eyebrow} title={copy.title} intro={copy.intro}>
-      <Stagger className="grid gap-4 md:grid-cols-2">
+      <div className="scene-spacer scene-spacer--tall" aria-hidden="true" />
+      <Stagger className="skills-grid grid gap-4 md:grid-cols-2">
         {SKILL_GROUPS.map((group) => {
           const items = skills.filter((s) => s.group === group);
           if (items.length === 0) return null;
