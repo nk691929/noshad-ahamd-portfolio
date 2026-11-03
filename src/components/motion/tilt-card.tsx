@@ -1,15 +1,15 @@
 "use client";
 
 /**
- * Purpose: a 3D card. Mouse: hover tilt plus a cursor-following spotlight. Touch: pressing tilts the card toward the
- * finger and it springs back on release (scrolling is never blocked). Always carries the revolving-light ring.
- * Transform/opacity only. Reduced motion: no tilt, ring is static (CSS).
+ * Purpose: a 3D card. Mouse: hover tilt plus a cursor-following spotlight (JS springs). Touch: a pure-CSS press tilt
+ * (.press-card:active), so phones keep NO permanent 3D transform layer per card (that was a memory cost on iPhone).
+ * Always carries the revolving-light ring. Transform/opacity only. Reduced motion: no tilt.
  * Inputs: maxTilt degrees. Used by: projects grid, skills, portrait.
  */
 import { useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { cn } from "@/lib/utils";
-import { spring, useReduced } from "@/lib/motion";
+import { spring, useFinePointer, useReduced } from "@/lib/motion";
 import "@/styles/ring.css";
 
 type Props = { children: React.ReactNode; className?: string; maxTilt?: number; ring?: boolean };
@@ -20,6 +20,7 @@ export function TiltCard({ children, className, maxTilt = 6, ring = true }: Prop
   const ref = useRef<HTMLDivElement>(null);
   const pressed = useRef(false);
   const reduced = useReduced();
+  const fine = useFinePointer();
   const px = useMotionValue(0);
   const py = useMotionValue(0);
   const rotateX = useSpring(useTransform(py, [-0.5, 0.5], [maxTilt, -maxTilt]), spring.tilt);
@@ -45,9 +46,9 @@ export function TiltCard({ children, className, maxTilt = 6, ring = true }: Prop
     glow.set(0);
   }
 
-  if (reduced) {
+  if (reduced || !fine) {
     return (
-      <div className={cn("relative", className)}>
+      <div className={cn("relative", !reduced && "press-card touch-manipulation", className)}>
         {children}
         {ring ? <span className="ring" aria-hidden="true" /> : null}
       </div>

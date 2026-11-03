@@ -21,8 +21,16 @@ html[data-scene="on"] .scene-hide {
 }
 
 /* The featured-projects showcase only exists in 3D mode. */
-html:not([data-scene="on"]) #showcase {
+html:not([data-scene="on"]):not([data-scene="lite"]) #showcase {
   display: none;
+}
+
+/* Lite mode (phones/tablets): the CSS laptop shows the projects instead of WebGL. */
+.lite-only {
+  display: none;
+}
+html[data-scene="lite"] .lite-only {
+  display: block;
 }
 
 /* Phones: leave room at the top for the laptop / constellation, copy below it. */

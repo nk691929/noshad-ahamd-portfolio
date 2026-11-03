@@ -15,6 +15,7 @@ export function ProjectShowcase() {
   const items: ShowcaseItem[] = getShowcaseProjects().map((p) => {
     const github = real(p.links.github);
     const live = real(p.links.live);
+    const cover = real(p.cover);
     return {
       slug: p.slug,
       title: p.title,
@@ -24,6 +25,7 @@ export function ProjectShowcase() {
       ...(p.status ? { status: STATUS[p.status] } : {}),
       ...(github ? { github } : {}),
       ...(live ? { live } : {}),
+      ...(cover ? { cover } : {}),
       ...(CASE_STUDY_ROUTES_READY && p.caseStudy ? { caseStudyHref: `/projects/${p.slug}` } : {}),
     };
   });

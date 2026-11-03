@@ -51,7 +51,7 @@ export function NavBar({ brand, items, resumeHref, resumeLabel }: Props) {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4">
-      <div className="glass mx-auto flex max-w-6xl items-center justify-between rounded-full px-4 py-2">
+      <div className="glass nav-blur mx-auto flex max-w-6xl items-center justify-between rounded-full px-4 py-2">
         <a href="#top" className="font-display text-lg font-semibold" aria-label="Back to top">
           {brand}
         </a>

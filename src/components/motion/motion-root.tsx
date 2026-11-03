@@ -16,11 +16,12 @@ export function MotionRoot() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    if (typeof window.requestIdleCallback === "function") {
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if ("requestIdleCallback" in window) {
       const id = window.requestIdleCallback(() => setReady(true));
       return () => window.cancelIdleCallback(id);
     }
-    const id = window.setTimeout(() => setReady(true), 1200);
+    const id = setTimeout(() => setReady(true), 1200);
     return () => window.clearTimeout(id);
   }, []);
 

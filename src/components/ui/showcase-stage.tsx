@@ -5,11 +5,13 @@
  * through the projects while the fixed 3D laptop (right) changes screens and this card (left) shows the matching
  * project, with the real links. Which project is active uses the SAME maths as the 3D scene (slideState), so text and
  * screen change together. Numbered buttons jump to a project (keyboard friendly). Reads scroll only; never moves it.
+ * On phones/tablets (data-scene="lite") a CSS laptop (lite-laptop.tsx) replaces the WebGL laptop.
  * Inputs: plain items + copy (no content imports). Used by: sections/project-showcase.tsx.
  */
 import { useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { Badge } from "@/components/ui/badge";
+import { LiteLaptop } from "@/components/ui/lite-laptop";
 import { pickVariants, useReduced } from "@/lib/motion";
 import { at, slideState } from "@/lib/scene/timeline";
 import { cn } from "@/lib/utils";
@@ -24,6 +26,7 @@ export type ShowcaseItem = {
   github?: string;
   live?: string;
   caseStudyHref?: string;
+  cover?: string;
 };
 
 type Copy = {
@@ -75,6 +78,18 @@ export function ShowcaseStage({ items, copy }: { items: ShowcaseItem[]; copy: Co
       className="relative"
     >
       <div className="sticky top-0 flex h-svh items-end pb-8 lg:items-center lg:pb-0">
+        {/* Phones and tablets: a CSS laptop instead of the WebGL scene */}
+        <div className="lite-only pointer-events-none absolute inset-x-0 top-24 px-6">
+          <LiteLaptop
+            slides={items.map((it) => ({
+              slug: it.slug,
+              title: it.title,
+              stack: it.stack,
+              ...(it.cover ? { cover: it.cover } : {}),
+            }))}
+            active={active}
+          />
+        </div>
         <div className="mx-auto w-full max-w-6xl px-6">
           <div className="max-w-md">
             <p className="font-mono text-sm uppercase tracking-widest text-accent">
