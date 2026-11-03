@@ -1,18 +1,21 @@
 "use client";
 
 /**
- * Purpose: Lenis smooth scrolling, lazy-loaded after mount and disabled under reduced motion.
+ * Purpose: Lenis smooth scrolling for mouse users only, lazy-loaded after mount; never on touch devices and never
+ * under reduced motion.
  * In-page #links are routed through Lenis with the target's scroll-margin-top applied (the sticky nav offset).
  * "#main" (the skip link) is left to the browser so keyboard focus still moves. Renders nothing.
  */
 import { useEffect } from "react";
-import { useReduced } from "@/lib/motion";
+import { useFinePointer, useReduced } from "@/lib/motion";
 
 export function SmoothScroll() {
   const reduced = useReduced();
+  const fine = useFinePointer();
 
   useEffect(() => {
-    if (reduced) return;
+    // Touch devices keep native momentum scrolling (a JS scroll loop fights iOS Safari and costs battery).
+    if (reduced || !fine) return;
     let cancelled = false;
     let raf = 0;
     let cleanup: (() => void) | undefined;
@@ -51,7 +54,7 @@ export function SmoothScroll() {
       cancelled = true;
       cleanup?.();
     };
-  }, [reduced]);
+  }, [reduced, fine]);
 
   return null;
 }

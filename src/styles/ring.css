@@ -25,7 +25,7 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 300%;
+  width: 220%;
   aspect-ratio: 1 / 1;
   translate: -50% -50%;
   background: conic-gradient(
@@ -41,6 +41,16 @@
 @keyframes ring-spin {
   to {
     rotate: 360deg;
+  }
+}
+/* Touch / small screens: a static light (no rotating layers: each one would hold a large GPU texture). */
+@media (hover: none), (max-width: 1023px) {
+  .ring::before {
+    animation: none;
+    will-change: auto;
+    width: 100%;
+    rotate: 35deg;
+    opacity: 0.7;
   }
 }
 @media (prefers-reduced-motion: reduce) {

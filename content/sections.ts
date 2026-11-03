@@ -61,11 +61,15 @@ export const sectionsCopy = {
   comments: {
     eyebrow: "Comments",
     title: "Leave a comment",
-    intro: "Say hello or share feedback. Comments appear after a quick review.",
+    intro: "Say hello or share feedback. Be kind and keep it free of links.",
     empty: "No comments yet. Be the first to say hello.",
     unavailable: "Comments could not be loaded right now. Please try again later.",
     unconfigured:
       "Preview only: comments switch on once Supabase is connected (see docs/COMMENTS.md).",
+    notPostable: "Posting is not switched on yet (the server key is missing).",
+    loading: "Loading comments...",
+    retry: "Try again",
+    loadMore: "Load more comments",
   },
   experience: { eyebrow: "Experience", title: "Experience and education" },
   github: {

@@ -17,8 +17,10 @@ export const fontText = Inter({
   display: "swap",
 });
 
+// Mono is only used for small labels, so it is not preloaded (keeps the critical path to two fonts).
 export const fontMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono-var",
   display: "swap",
+  preload: false,
 });

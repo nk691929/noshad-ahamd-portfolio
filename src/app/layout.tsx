@@ -12,16 +12,20 @@ import "@/styles/sections.css";
 import "@/styles/light.css";
 import "@/styles/scene.css";
 import "@/styles/ring.css";
+import "@/styles/mobile.css";
 
 export const metadata: Metadata = siteMetadata();
 export const viewport = siteViewport;
 
 /**
- * Decides, before first paint, whether the 3D scene may run: WebGL available, no reduced motion, no data saver, not a
- * very low-end device. Sets <html data-scene="on">; CSS then reserves room for the 3D laptop. If anything fails later
- * the attribute becomes "off" and the static design is used. (Creating and immediately losing a context is cheap.)
+ * Decides, before first paint, which experience this device gets and sets <html data-scene="...">:
+ *   "on"   desktop-class (wide screen, mouse, 4+ cores, WebGL): the full WebGL 3D scene.
+ *   "lite" phones and tablets, or when WebGL / memory is limited: NO WebGL and NO three.js download; the page uses a
+ *          CSS laptop in the showcase and lighter effects. (Mobile Safari kills tabs that use too much GPU memory.)
+ *   unset  reduced motion or data saver: the plain static design.
+ * If the 3D scene later fails the attribute is set to "lite".
  */
-const SCENE_GATE = `(function(){try{var d=document.documentElement;var rm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;var c=navigator.connection;var sd=!!(c&&c.saveData);var lowMem=typeof navigator.deviceMemory==="number"&&navigator.deviceMemory<2;var lowCpu=typeof navigator.hardwareConcurrency==="number"&&navigator.hardwareConcurrency<=2;var cv=document.createElement("canvas");var gl=cv.getContext("webgl2")||cv.getContext("webgl");if(gl){var x=gl.getExtension("WEBGL_lose_context");if(x)x.loseContext();}if(gl&&!rm&&!sd&&!lowMem&&!lowCpu)d.setAttribute("data-scene","on");}catch(e){}})();`;
+const SCENE_GATE = `(function(){try{var d=document.documentElement;var m=function(q){return window.matchMedia(q).matches};if(m("(prefers-reduced-motion: reduce)"))return;var c=navigator.connection;if(c&&c.saveData)return;var desktop=m("(min-width: 1024px)")&&m("(hover: hover) and (pointer: fine)");var cores=navigator.hardwareConcurrency;var mem=navigator.deviceMemory;var strong=desktop&&(typeof cores!=="number"||cores>=4)&&(typeof mem!=="number"||mem>=4);var gl=false;if(strong){var cv=document.createElement("canvas");var g=cv.getContext("webgl2")||cv.getContext("webgl");gl=!!g;if(g){var x=g.getExtension("WEBGL_lose_context");if(x)x.loseContext();}}d.setAttribute("data-scene",strong&&gl?"on":"lite");}catch(e){}})();`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

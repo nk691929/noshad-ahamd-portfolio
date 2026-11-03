@@ -1,0 +1,68 @@
+/**
+ * Purpose: stability and speed on phones and tablets. Imported LAST in src/app/layout.tsx so it can override.
+ * Why: iPhone Safari kills a tab when it holds too much GPU memory. Every `backdrop-filter` element, every large
+ * rotating layer, and every always-on full-screen animation costs memory and compositing time, and the page had dozens.
+ * Desktop is untouched. Reduced motion is respected by the rules in the other CSS files.
+ */
+
+/* Hero entrance: shorter, so the headline text (the LCP element) is fully visible sooner. All devices. */
+.rise {
+  animation-duration: 0.6s;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+@media (max-width: 1023px), (hover: none) {
+  /* One backdrop blur (the header) instead of ~40. Cards use a more opaque fill so they still read as glass. */
+  .glass {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: color-mix(in srgb, var(--bg-elevated) 78%, transparent);
+  }
+  .glass.nav-blur,
+  .nav-blur {
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+    background: var(--surface);
+  }
+
+  /* The full-screen film grain is a fixed layer above everything: skip it on phones. */
+  .grain::after {
+    display: none;
+  }
+
+  /* Hero glows: static (a moving 60vmax gradient is a permanent animation + big layer). */
+  .hero-blob,
+  .hero-blob--a,
+  .hero-blob--b,
+  .hero-blob--c {
+    animation: none;
+    will-change: auto;
+  }
+  .hero-blob--c {
+    display: none;
+  }
+
+  /* Idle floating loops on the portrait and chips: keep only the hanging-card swing. */
+  .photo-float,
+  .chip-float-a,
+  .chip-float-b,
+  .photo-spin {
+    animation: none;
+    will-change: auto;
+  }
+
+  /* Press feedback for 3D cards on touch: pure CSS, no permanent transform layer. */
+  .press-card {
+    transition: transform 0.2s var(--ease-out-expo);
+  }
+  .press-card:active {
+    transform: perspective(800px) rotateX(2.5deg) scale(0.985);
+  }
+}
+
+/* The scrolling marquee animates a wide layer forever; pause it until hovered/focused on touch screens. */
+@media (hover: none) {
+  .marquee__inner {
+    animation-play-state: paused;
+  }
+}
