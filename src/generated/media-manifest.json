@@ -1,0 +1,14 @@
+{
+  "images": ["profile-wide.jpg", "profile.jpg"],
+  "media": [
+    "al-hesan.jpg",
+    "al-hesan.webm",
+    "estate-demo.jpg",
+    "estate-demo.webm",
+    "nexymark.jpg",
+    "nexymark.webm",
+    "portfolio-site.jpg",
+    "portfolio-site.webm"
+  ],
+  "audio": ["ambient.mp3"]
+}

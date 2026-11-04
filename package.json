@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "node scripts/build-media-manifest.mjs && next dev",
+    "build": "node scripts/build-media-manifest.mjs && next build",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
@@ -15,7 +15,8 @@
     "prepare": "husky",
     "todo": "node scripts/list-todos.mjs",
     "github:snapshot": "node scripts/github-snapshot.mjs",
-    "capture": "node scripts/capture-previews.mjs"
+    "capture": "node scripts/capture-previews.mjs",
+    "media:manifest": "node scripts/build-media-manifest.mjs"
   },
   "lint-staged": {
     "*.{ts,tsx,js,mjs}": [
